@@ -17,6 +17,8 @@ class LoginController {
           if (timeDifference < 3600000) { // 3600000 milliseconds = 1 hour
             const remainingTime = Math.ceil((3600000 - timeDifference) / 1000);
             return res.status(429).send({ "status": "error", "msg": `Please wait ${remainingTime} seconds to Login again. ${userRec.attempt} attempts already done.` });
+          } else {
+            await userModel.findOneAndUpdate({ email }, { attempt: 0 });
           }
         }
 
@@ -27,7 +29,7 @@ class LoginController {
           let token = jwt.sign({ userID: userRec._id }, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
           return res.send({ "status": "success", token });
         } else {
-          const up = await userModel.findOneAndUpdate({ email }, { $inc: { attempt: 1 }, time: currentTime });
+          const up = await userModel.findOneAndUpdate({ email }, { $inc: { attempt: 1 } });
           const remainingAttempts = 5 - up.attempt;
 
           if (up.attempt === 5) {
