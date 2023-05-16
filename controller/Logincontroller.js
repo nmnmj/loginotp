@@ -39,7 +39,7 @@ class LoginController {
           } else {
             const up = await userModel.findOneAndUpdate({ email }, { $inc: { attempt: 1 }, time: currentTime });
             const remainingAttempts = 5 - up.attempt;
-            return res.status(401).send({ "status": "failed", "msg": `Invalid OTP. You have ${remainingAttempts} attempts left.`, "attempt": up.attempt });
+            return res.status(401).send({ "status": "failed", "msg": `Invalid OTP. You have ${remainingAttempts-1} attempts left.`, "attempt": up.attempt+1 });
           }
         } else {
           return res.status(401).send({ "status": "failed", "msg": "Your account is temporarily blocked. Please try again after 1 hour." });
