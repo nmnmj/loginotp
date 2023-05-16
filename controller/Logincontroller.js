@@ -18,7 +18,7 @@ class LoginController {
             const remainingTime = Math.ceil((3600000 - timeDifference) / 1000);
             return res.status(429).send({ "status": "error", "msg": `Please wait ${remainingTime} seconds to Login again. ${userRec.attempt} attempts already done.` });
           } else {
-            await userModel.findOneAndUpdate({ email }, { attempt: 0 });
+            await userModel.findOneAndUpdate({ email }, { attempt: 0, time: currentTime });
           }
         }
 
