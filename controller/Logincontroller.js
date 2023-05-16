@@ -14,8 +14,8 @@ class LoginController {
           const userTime = userRec.time.getTime();
           const timeDifference = currentTime - userTime;
 
-          if (timeDifference < 60000) { // 3600000 milliseconds = 1 hour
-            const remainingTime = Math.ceil((60000 - timeDifference) / 1000);
+          if (timeDifference < 3600000) { // 3600000 milliseconds = 1 hour
+            const remainingTime = Math.ceil((3600000 - timeDifference) / 1000);
             return res.status(429).send({ "status": "error", "msg": `Please wait ${remainingTime} seconds to Login again. ${userRec.attempt} attempts already done.` });
           } else {
             await userModel.findOneAndUpdate({ email }, { attempt: 0, time: currentTime });
