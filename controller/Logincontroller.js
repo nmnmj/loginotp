@@ -7,14 +7,11 @@ class LoginController {
     const { email, otp } = req.body;
     const userRec = await userModel.findOne({ email });
     const currentTime = Date.now();
-    try {
-        var otpRec = await otpModel.findOne({email, otp})
+    
+    var otpRec = await otpModel.findOne({email, otp})
+    if(otpRec){
         var otpOtime = otpRec.otime.getTime()
         var timeDifference = currentTime - otpOtime
-        
-    } catch (error) {
-        return res.status(400).send({ "status": "failed", "msg": "No OTP found for this user" });
-        
     }
     let d = null;
     if(timeDifference > 300000){
