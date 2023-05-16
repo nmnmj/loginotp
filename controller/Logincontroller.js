@@ -12,6 +12,7 @@ class LoginController {
     if(otpRec){
         var otpOtime = otpRec.otime.getTime()
         var timeDifference = currentTime - otpOtime
+        
     }
     let d = null;
     if(timeDifference > 300000){
