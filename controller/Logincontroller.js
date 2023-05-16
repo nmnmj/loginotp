@@ -15,8 +15,8 @@ class Logincontroller {
                     // console.log("in")
                     const userTime = userRec.time.getTime();
                     const timeDifference = currentTime - userTime;
-                    if (timeDifference < 80000) {   //3600000     60000
-                        const remainingTime = Math.ceil((80000 - timeDifference) / 1000);
+                    if (timeDifference < 3600000) {   //3600000     60000
+                        const remainingTime = Math.ceil((3600000 - timeDifference) / 1000);
                         res.status(429).send({ "status": "error", "msg": `Please wait ${remainingTime} seconds to Login again. ${userRec.attempt} attempts already done.` });
                     }else{
                         const chk = await otpModel.findOne({email, otp})
@@ -51,8 +51,6 @@ class Logincontroller {
             }else{
                 res.status(400).send({"status":"failed", "msg":"no user found"})
             }
-
-
                 
         } catch (error) {
             res.status(401).send({ "status": "failed", "msg": "something went wrong" });
