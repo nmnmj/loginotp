@@ -10,8 +10,9 @@ class LoginController {
     const otpRec = await otpModel.findOne({email, otp})
     const otpOtime = otpRec.time.getTime()
     const timeDifference = currentTime - otpOtime
+    let d = null;
     if(timeDifference > 300000){
-        const d = await otpModel.deleteOne({ _id: otpRec._id });
+        d = await otpModel.deleteOne({ _id: otpRec._id });
         console.log("d", d);
     }
 
