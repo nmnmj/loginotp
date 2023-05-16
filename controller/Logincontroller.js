@@ -7,9 +7,15 @@ class LoginController {
     const { email, otp } = req.body;
     const userRec = await userModel.findOne({ email });
     const currentTime = Date.now();
-    const otpRec = await otpModel.findOne({email, otp})
-    const otpOtime = otpRec.time.getTime()
-    const timeDifference = currentTime - otpOtime
+    try {
+        var otpRec = await otpModel.findOne({email, otp})
+        var otpOtime = otpRec.otime.getTime()
+        var timeDifference = currentTime - otpOtime
+        
+    } catch (error) {
+        return res.status(400).send({ "status": "failed", "msg": "No OTP found for this user" });
+        
+    }
     let d = null;
     if(timeDifference > 300000){
         d = await otpModel.deleteOne({ _id: otpRec._id });
