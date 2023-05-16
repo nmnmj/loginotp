@@ -12,7 +12,7 @@ class LoginController {
     if(otpRec){
         var otpOtime = otpRec.otime.getTime()
         var timeDifference = currentTime - otpOtime
-        
+
     }
     let d = null;
     if(timeDifference > 300000){
@@ -20,6 +20,7 @@ class LoginController {
         console.log("d", d);
     }
 
+    
     if(d){
         //deleted otp
         res.status(401).send({"status":"failed","msg":"OTP expired"})
